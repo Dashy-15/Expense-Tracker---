@@ -37,18 +37,6 @@ function addExpense(expense) {
 
     expenseList.appendChild(li);
 }
-
-function saveExpense(expense) {
-    let expenses = JSON.parse(localStorage.getItem('expenses')) || [];
-    expenses.push(expense);
-    localStorage.setItem('expenses', JSON.stringify(expenses));
-}
-
-function loadExpenses() {
-    let expenses = JSON.parse(localStorage.getItem('expenses')) || [];
-    expenses.forEach(expense => addExpense(expense));
-}
-
 function deleteExpense(expense, listItem) {
     let expenses = JSON.parse(localStorage.getItem('expenses')) || [];
     expenses = expenses.filter(e => e.amount !== expense.amount || e.category !== expense.category);
@@ -61,4 +49,3 @@ function editExpense(expense, listItem) {
     document.getElementById('category').value = expense.category;
     deleteExpense(expense, listItem);
 }
-});
