@@ -1,6 +1,9 @@
 const form = document.getElementById('expense-form');
 const expenseList = document.getElementById('expense-list');
 
+// Load the expenses from Local Storage 
+loadExpenses();
+
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     const amount = document.getElementById('amount').value;
@@ -9,12 +12,13 @@ form.addEventListener('submit', (e) => {
     if (amount && category) {
         const expense = { amount, category };
         addExpense(expense);
-        //saveExpense(expense);
+        saveExpense(expense);
 
         // Clear input fields
         form.reset();
     }
 });
+
 function addExpense(expense) {
     const li = document.createElement('li');
     li.className = 'list-group-item d-flex justify-content-between align-items-center';
@@ -37,6 +41,18 @@ function addExpense(expense) {
 
     expenseList.appendChild(li);
 }
+
+function saveExpense(expense) {
+    let expenses = JSON.parse(localStorage.getItem('expenses')) || [];
+    expenses.push(expense);
+    localStorage.setItem('expenses', JSON.stringify(expenses));
+}
+
+function loadExpenses() {
+    let expenses = JSON.parse(localStorage.getItem('expenses')) || [];
+    expenses.forEach(expense => addExpense(expense));
+}
+
 function deleteExpense(expense, listItem) {
     let expenses = JSON.parse(localStorage.getItem('expenses')) || [];
     expenses = expenses.filter(e => e.amount !== expense.amount || e.category !== expense.category);
